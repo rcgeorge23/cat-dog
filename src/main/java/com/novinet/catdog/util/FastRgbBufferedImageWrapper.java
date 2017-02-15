@@ -1,37 +1,40 @@
 package com.novinet.catdog.util;
 
+import java.awt.Color;
 import java.awt.image.BufferedImage;
-import java.awt.image.DataBufferByte;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FastRgbBufferedImageWrapper {
 
 	private int width;
-	private boolean hasAlphaChannel;
-	private int pixelLength;
-	private byte[] pixels;
+	private int height;
+	private List<Pixel> pixelList;
 
 	public FastRgbBufferedImageWrapper(BufferedImage image) {
-		pixels = ((DataBufferByte) image.getRaster().getDataBuffer()).getData();
+		pixelList = new ArrayList<Pixel>();
 		width = image.getWidth();
-		hasAlphaChannel = image.getAlphaRaster() != null;
-		pixelLength = 3;
-		if (hasAlphaChannel) {
-			pixelLength = 4;
-		}
-	}
-
-	public int getRGB(int x, int y) {
-		int pos = (y * pixelLength * width) + (x * pixelLength);
-
-		int argb = -16777216; // 255 alpha
-		if (hasAlphaChannel) {
-			argb = (((int) pixels[pos++] & 0xff) << 24); // alpha
-		}
-
-		argb += ((int) pixels[pos++] & 0xff); // blue
-		argb += (((int) pixels[pos++] & 0xff) << 8); // green
-		argb += (((int) pixels[pos++] & 0xff) << 16); // red
+		height = image.getHeight();
 		
-		return argb;
+		for (int x = 0; x < width; x++) {
+			for (int y = 0; y < height; y++) {
+				int rgb = image.getRGB(x, y);
+				Color color = new Color(rgb);
+				pixelList.add(new Pixel(color));
+			}
+		}
 	}
+	
+	public int getWidth() {
+		return width;
+	}
+
+	public int getHeight() {
+		return height;
+	}
+
+	public List<Pixel> getPixels() {
+		return pixelList;
+	}
+
 }
