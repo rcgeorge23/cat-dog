@@ -5,15 +5,15 @@ import static org.apache.commons.lang3.builder.ReflectionToStringBuilder.toStrin
 import com.novinet.catdog.util.FastRgbBufferedImageWrapper;
 
 public class AnnotatedImage {
-	private String label;
+	private ClassificationLabel label;
 	private String filename;
 	private FastRgbBufferedImageWrapper bufferedImageWrapper;
 
-	public String getLabel() {
+	public ClassificationLabel getLabel() {
 		return label;
 	}
 
-	public void setLabel(String label) {
+	public void setLabel(ClassificationLabel label) {
 		this.label = label;
 	}
 

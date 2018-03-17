@@ -21,4 +21,6 @@ public class Pixel {
 	public int getBlue() {
 		return this.colour.getBlue();
 	}
+
+	public int getGrey() { return (getRed() + getGreen() + getBlue()) / 3; }
 }
