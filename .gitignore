@@ -1,5 +1,7 @@
 /bin/
 build/
+target/
 .settings/
 .idea/
+catdog.iml
 cat-dog.iml

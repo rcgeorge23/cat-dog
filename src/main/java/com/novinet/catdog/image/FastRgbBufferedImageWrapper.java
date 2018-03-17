@@ -1,4 +1,4 @@
-package com.novinet.catdog.util;
+package com.novinet.catdog.image;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;

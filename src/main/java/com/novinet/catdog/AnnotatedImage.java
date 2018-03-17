@@ -2,7 +2,7 @@ package com.novinet.catdog;
 
 import static org.apache.commons.lang3.builder.ReflectionToStringBuilder.toStringExclude;
 
-import com.novinet.catdog.util.FastRgbBufferedImageWrapper;
+import com.novinet.catdog.image.FastRgbBufferedImageWrapper;
 
 public class AnnotatedImage {
 	private ClassificationLabel label;

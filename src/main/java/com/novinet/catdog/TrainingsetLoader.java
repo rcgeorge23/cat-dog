@@ -1,22 +1,20 @@
 package com.novinet.catdog;
 
+import com.novinet.catdog.neuralnet.NaiveNeuralNetwork;
+import com.novinet.catdog.image.FastRgbBufferedImageWrapper;
+import org.apache.commons.csv.CSVRecord;
+import org.apache.log4j.Logger;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.*;
+
 import static com.novinet.catdog.neuralnet.NaiveNeuralNetwork.buildAndTrainNetwork;
 import static java.lang.String.format;
 import static java.util.Arrays.asList;
 import static javax.imageio.ImageIO.read;
 import static org.apache.commons.csv.CSVFormat.EXCEL;
-
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.time.Instant;
-import java.util.*;
-
-import com.novinet.catdog.neuralnet.NaiveNeuralNetwork;
-import org.apache.commons.csv.CSVRecord;
-import org.apache.log4j.Logger;
-
-import com.novinet.catdog.util.FastRgbBufferedImageWrapper;
 
 public class TrainingSetLoader {
 
@@ -93,11 +91,8 @@ public class TrainingSetLoader {
     }
 
 	public static void main(String[] args) throws IOException {
-        //trainNetwork();
-//        classify("/Users/rcgeorge23/Downloads/.Keka-F68F43C0-B33E-4B8B-A182-9FAB65BF59E3/test/1005.png", "/Users/rcgeorge23/neuralnetworks/catdog/1521291522626.eg"); //cat
-        classify("/Users/rcgeorge23/Downloads/.Keka-F68F43C0-B33E-4B8B-A182-9FAB65BF59E3/test/1029.png", "/Users/rcgeorge23/neuralnetworks/catdog/1521291522626.eg"); //dog
-//        classify("/Users/rcgeorge23/Downloads/.Keka-F68F43C0-B33E-4B8B-A182-9FAB65BF59E3/test/1034.png", "/Users/rcgeorge23/neuralnetworks/catdog/1521291522626.eg"); //cat
-//        classify("/Users/rcgeorge23/Downloads/.Keka-F68F43C0-B33E-4B8B-A182-9FAB65BF59E3/test/1041.png", "/Users/rcgeorge23/neuralnetworks/catdog/1521291522626.eg"); //cat
+        trainNetwork();
+//        classify("/Users/rcgeorge23/Downloads/.Keka-F68F43C0-B33E-4B8B-A182-9FAB65BF59E3/test/1005.png", "/Users/rcgeorge23/neuralnetworks/catdog/1521294311131.eg"); //cat
 	}
 
     private static void classify(String imagePath, String networkPath) throws IOException {
@@ -122,7 +117,7 @@ public class TrainingSetLoader {
 
         trainingSetLoader.initialise();
 
-        NaiveNeuralNetwork naiveNeuralNetwork = buildAndTrainNetwork(trainingSetLoader.getAnnotatedImages(), 0.243);
+        NaiveNeuralNetwork naiveNeuralNetwork = buildAndTrainNetwork(trainingSetLoader.getAnnotatedImages(), 0.2);
 
         String neuralNetworkFileName = format("/Users/rcgeorge23/neuralnetworks/catdog/%s.eg", new Date().getTime());
         System.out.println(format("Saving network as %s", neuralNetworkFileName));

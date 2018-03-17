@@ -2,24 +2,19 @@ package com.novinet.catdog.neuralnet;
 
 import java.io.File;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import com.novinet.catdog.ClassificationLabel;
-import com.novinet.catdog.util.FastRgbBufferedImageWrapper;
+import com.novinet.catdog.image.FastRgbBufferedImageWrapper;
 import org.encog.engine.network.activation.ActivationSigmoid;
-import org.encog.ml.data.MLData;
 import org.encog.ml.data.MLDataSet;
 import org.encog.ml.data.basic.BasicMLData;
 import org.encog.ml.data.basic.BasicMLDataSet;
-import org.encog.neural.data.NeuralDataSet;
-import org.encog.neural.data.basic.BasicNeuralDataSet;
 
 import com.novinet.catdog.AnnotatedImage;
-import com.novinet.catdog.util.Pixel;
+import com.novinet.catdog.image.Pixel;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.layers.BasicLayer;
 import org.encog.neural.networks.training.propagation.resilient.ResilientPropagation;
-import org.encog.persist.EncogDirectoryPersistence;
 
 import static org.encog.persist.EncogDirectoryPersistence.loadObject;
 import static org.encog.persist.EncogDirectoryPersistence.saveObject;
@@ -41,8 +36,8 @@ public class NaiveNeuralNetwork {
         BasicNetwork network = new BasicNetwork();
 
         network.addLayer(new BasicLayer(null, true, 1024));
-        network.addLayer(new BasicLayer(new ActivationSigmoid(), false, 32));
-        network.addLayer(new BasicLayer(new ActivationSigmoid(), false, 4));
+        network.addLayer(new BasicLayer(new ActivationSigmoid(), false, 1024));
+        network.addLayer(new BasicLayer(new ActivationSigmoid(), false, 128));
         network.addLayer(new BasicLayer(new ActivationSigmoid(), false, 2));
         network.addLayer(new BasicLayer(new ActivationSigmoid(), false, 1));
         network.getStructure().finalizeStructure();
