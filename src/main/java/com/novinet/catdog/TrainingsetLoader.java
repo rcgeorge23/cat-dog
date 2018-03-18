@@ -1,9 +1,12 @@
 package com.novinet.catdog;
 
+import com.novinet.catdog.neuralnet.Layer;
 import com.novinet.catdog.neuralnet.NaiveNeuralNetwork;
 import com.novinet.catdog.image.FastRgbBufferedImageWrapper;
+import com.novinet.catdog.neuralnet.NetworkTopology;
 import org.apache.commons.csv.CSVRecord;
 import org.apache.log4j.Logger;
+import org.encog.engine.network.activation.ActivationSigmoid;
 
 import java.io.File;
 import java.io.IOException;
@@ -117,7 +120,14 @@ public class TrainingSetLoader {
 
         trainingSetLoader.initialise();
 
-        NaiveNeuralNetwork naiveNeuralNetwork = buildAndTrainNetwork(trainingSetLoader.getAnnotatedImages(), 0.2);
+        NaiveNeuralNetwork naiveNeuralNetwork = buildAndTrainNetwork(
+                new NetworkTopology()
+                        .addLayer(new Layer(new ActivationSigmoid(), true, 1024))
+                        .addLayer(new Layer(new ActivationSigmoid(), true, 128))
+                        .addLayer(new Layer(new ActivationSigmoid(), true, 2)),
+                trainingSetLoader.getAnnotatedImages(),
+                0.2
+        );
 
         String neuralNetworkFileName = format("/Users/rcgeorge23/neuralnetworks/catdog/%s.eg", new Date().getTime());
         System.out.println(format("Saving network as %s", neuralNetworkFileName));

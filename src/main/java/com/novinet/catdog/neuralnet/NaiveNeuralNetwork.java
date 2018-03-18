@@ -29,16 +29,18 @@ public class NaiveNeuralNetwork {
         network = (BasicNetwork) loadObject(file);
     }
 
-    public static NaiveNeuralNetwork buildAndTrainNetwork(List<AnnotatedImage> trainingSet, double targetErrorRate) {
+    public static NaiveNeuralNetwork buildAndTrainNetwork(NetworkTopology networkTopology, List<AnnotatedImage> trainingSet, double targetErrorRate) {
         NaiveNeuralNetwork naiveNeuralNetwork = new NaiveNeuralNetwork();
         MLDataSet mlDataSet = naiveNeuralNetwork.buildTrainingSet(trainingSet);
 
         BasicNetwork network = new BasicNetwork();
 
-        network.addLayer(new BasicLayer(null, true, 1024));
-        network.addLayer(new BasicLayer(new ActivationSigmoid(), false, 1024));
-        network.addLayer(new BasicLayer(new ActivationSigmoid(), false, 128));
-        network.addLayer(new BasicLayer(new ActivationSigmoid(), false, 2));
+        network.addLayer(new BasicLayer(null, true, totalNumberOfPixels(trainingSet)));
+
+        networkTopology.getLayers().stream().forEach(layer -> {
+            network.addLayer(new BasicLayer(layer.getActivationFunction(), layer.isBias(), layer.getNumberOfNeurons()));
+        });
+
         network.addLayer(new BasicLayer(new ActivationSigmoid(), false, 1));
         network.getStructure().finalizeStructure();
         network.reset();
@@ -56,6 +58,10 @@ public class NaiveNeuralNetwork {
 
         naiveNeuralNetwork.setNetwork(network);
         return naiveNeuralNetwork;
+    }
+
+    private static int totalNumberOfPixels(List<AnnotatedImage> trainingSet) {
+        return trainingSet.get(0).getBufferedImageWrapper().getWidth() * trainingSet.get(0).getBufferedImageWrapper().getHeight();
     }
 
     public void saveNetwork(File file) {
