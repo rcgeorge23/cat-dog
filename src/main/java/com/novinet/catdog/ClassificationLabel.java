@@ -1,8 +1,8 @@
 package com.novinet.catdog;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.apache.commons.lang3.builder.ToStringBuilder;
+import static org.apache.commons.lang3.builder.EqualsBuilder.reflectionEquals;
+import static org.apache.commons.lang3.builder.HashCodeBuilder.reflectionHashCode;
+import static org.apache.commons.lang3.builder.ToStringBuilder.reflectionToString;
 
 public class ClassificationLabel {
     private String label;
@@ -23,16 +23,16 @@ public class ClassificationLabel {
 
     @Override
     public boolean equals(Object obj) {
-        return EqualsBuilder.reflectionEquals(this, obj);
+        return reflectionEquals(this, obj);
     }
 
     @Override
     public int hashCode() {
-        return HashCodeBuilder.reflectionHashCode(this);
+        return reflectionHashCode(this);
     }
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        return reflectionToString(this);
     }
 }
