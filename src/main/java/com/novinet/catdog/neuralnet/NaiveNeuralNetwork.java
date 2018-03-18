@@ -1,6 +1,9 @@
 package com.novinet.catdog.neuralnet;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.List;
 
 import com.novinet.catdog.ClassificationLabel;
@@ -25,8 +28,8 @@ public class NaiveNeuralNetwork {
     public NaiveNeuralNetwork() {
     }
 
-    public NaiveNeuralNetwork(File file) {
-        network = (BasicNetwork) loadObject(file);
+    public NaiveNeuralNetwork(InputStream networkInputStream) {
+        network = (BasicNetwork) loadObject(networkInputStream);
     }
 
     public static NaiveNeuralNetwork buildAndTrainNetwork(NetworkTopology networkTopology, List<AnnotatedImage> trainingSet, double targetErrorRate) {

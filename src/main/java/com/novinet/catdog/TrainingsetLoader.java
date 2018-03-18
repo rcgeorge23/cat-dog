@@ -1,16 +1,14 @@
 package com.novinet.catdog;
 
+import com.novinet.catdog.image.FastRgbBufferedImageWrapper;
 import com.novinet.catdog.neuralnet.Layer;
 import com.novinet.catdog.neuralnet.NaiveNeuralNetwork;
-import com.novinet.catdog.image.FastRgbBufferedImageWrapper;
 import com.novinet.catdog.neuralnet.NetworkTopology;
 import org.apache.commons.csv.CSVRecord;
 import org.apache.log4j.Logger;
 import org.encog.engine.network.activation.ActivationSigmoid;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.*;
 
 import static com.novinet.catdog.neuralnet.NaiveNeuralNetwork.buildAndTrainNetwork;
@@ -28,26 +26,21 @@ public class TrainingSetLoader {
 	
 	private final static Logger LOGGER = Logger.getLogger(TrainingSetLoader.class);
 
-    private static final ClassificationLabel CAT = new ClassificationLabel("cat", 0d);
-    private static final ClassificationLabel DOG = new ClassificationLabel("dog", 1d);
-
-    private static final Map<Long, ClassificationLabel> CLASSIFICATIONS = new HashMap<>();
-
-    static {
-        CLASSIFICATIONS.put(Math.round(CAT.getNetworkOutput()), CAT);
-        CLASSIFICATIONS.put(Math.round(DOG.getNetworkOutput()), DOG);
-    }
+    static final ClassificationLabel CAT = new ClassificationLabel("cat", 0d);
+    static final ClassificationLabel DOG = new ClassificationLabel("dog", 1d);
 
 	private List<ClassificationLabel> labels;
 	private String trainingSetPath;
 	private Iterable<CSVRecord> trainingSetRecords;
 	private String trainingImageFileExtension;
+    private ClassificationService classificationService;
 
 	public TrainingSetLoader(List<ClassificationLabel> labels, String trainingSetPath, String trainingImageFileExtension, Iterable<CSVRecord> trainingSetRecords) throws IOException {
 		this.labels = labels;
 		this.trainingSetPath = trainingSetPath;
 		this.trainingSetRecords = trainingSetRecords;
 		this.trainingImageFileExtension = trainingImageFileExtension;
+        this.classificationService = new ClassificationService();
 	}
 	
 	public void initialise() throws IOException {
@@ -85,7 +78,7 @@ public class TrainingSetLoader {
 		return annotatedImage;
 	}
 
-	private static FastRgbBufferedImageWrapper buildBiw(String filename) throws IOException {
+    static FastRgbBufferedImageWrapper buildBiw(String filename) throws IOException {
 		return new FastRgbBufferedImageWrapper(read(new File(filename)));
 	}
 
@@ -94,20 +87,16 @@ public class TrainingSetLoader {
     }
 
 	public static void main(String[] args) throws IOException {
-        trainNetwork();
-//        classify("/Users/rcgeorge23/Downloads/.Keka-F68F43C0-B33E-4B8B-A182-9FAB65BF59E3/test/1005.png", "/Users/rcgeorge23/neuralnetworks/catdog/1521294311131.eg"); //cat
-	}
+//        trainNetwork();
+//        classify(new FileInputStream(new File("/Users/rcgeorge23/Downloads/.Keka-F68F43C0-B33E-4B8B-A182-9FAB65BF59E3/test/1005.png")), new FileInputStream(new File("/Users/rcgeorge23/neuralnetworks/catdog/1521294311131.eg"))); //cat
+        ClassificationResult classificationResult = new ClassificationService().classify(new FileInputStream(new File("/Users/rcgeorge23/Downloads/.Keka-F68F43C0-B33E-4B8B-A182-9FAB65BF59E3/test/1005.png")));//cat
+        System.out.println(classificationResult);
+    }
 
-    private static void classify(String imagePath, String networkPath) throws IOException {
-        NaiveNeuralNetwork naiveNeuralNetwork = new NaiveNeuralNetwork(new File(networkPath));
-
-        double classification = naiveNeuralNetwork.classify(buildBiw(imagePath));
-
-        System.out.println(classification);
-
-        Long result = Math.round(classification);
-
-        System.out.println(CLASSIFICATIONS.get(result).getLabel());
+    private static void classify(InputStream imageInputStream, InputStream networkInputStream) throws IOException {
+        ClassificationResult classificationResult = new ClassificationService().classify(imageInputStream, networkInputStream);
+        System.out.println(classificationResult.getCertainty());
+        System.out.println(classificationResult.getClassificationLabel().getLabel());
     }
 
     private static void trainNetwork() throws IOException {
