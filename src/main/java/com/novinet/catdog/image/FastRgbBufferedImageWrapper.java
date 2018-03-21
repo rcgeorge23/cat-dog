@@ -12,7 +12,7 @@ public class FastRgbBufferedImageWrapper {
 	private List<Pixel> pixelList;
 
 	public FastRgbBufferedImageWrapper(BufferedImage image) {
-		pixelList = new ArrayList<Pixel>();
+		pixelList = new ArrayList<>();
 		width = image.getWidth();
 		height = image.getHeight();
 		

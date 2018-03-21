@@ -27,7 +27,7 @@ public class AnnotatedImage {
 
 	@Override
 	public String toString() {
-		return toStringExclude(this, "bufferedImage");
+		return toStringExclude(this, "bufferedImageWrapper");
 	}
 
 	public FastRgbBufferedImageWrapper getBufferedImageWrapper() {
