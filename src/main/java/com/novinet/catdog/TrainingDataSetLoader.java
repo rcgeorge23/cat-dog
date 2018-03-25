@@ -17,14 +17,14 @@ import static java.util.Arrays.asList;
 import static javax.imageio.ImageIO.read;
 import static org.apache.commons.csv.CSVFormat.EXCEL;
 
-public class TrainingSetLoader {
+public class TrainingDataSetLoader {
 
 	private static final int COLUMN_INDEX_IMAGE_NUMBER = 0;
 	private static final int COLUMN_INDEX_IMAGE_LABEL = 1;
 	
 	private List<AnnotatedImage> annotatedImages = new ArrayList<>();
 	
-	private final static Logger LOGGER = Logger.getLogger(TrainingSetLoader.class);
+	private final static Logger LOGGER = Logger.getLogger(TrainingDataSetLoader.class);
 
     static final ClassificationLabel CAT = new ClassificationLabel("cat", 0d);
     static final ClassificationLabel DOG = new ClassificationLabel("dog", 1d);
@@ -35,7 +35,7 @@ public class TrainingSetLoader {
 	private String trainingImageFileExtension;
     private ClassificationService classificationService;
 
-	public TrainingSetLoader(List<ClassificationLabel> labels, String trainingSetPath, String trainingImageFileExtension, Iterable<CSVRecord> trainingSetRecords) throws IOException {
+	public TrainingDataSetLoader(List<ClassificationLabel> labels, String trainingSetPath, String trainingImageFileExtension, Iterable<CSVRecord> trainingSetRecords) throws IOException {
 		this.labels = labels;
 		this.trainingSetPath = trainingSetPath;
 		this.trainingSetRecords = trainingSetRecords;
@@ -100,11 +100,11 @@ public class TrainingSetLoader {
     }
 
     private static void trainNetwork() throws IOException {
-        TrainingSetLoader trainingSetLoader = new TrainingSetLoader(
+        TrainingDataSetLoader trainingSetLoader = new TrainingDataSetLoader(
                 asList(CAT, DOG),
                 "/Users/rcgeorge23/Downloads/train/",
                 ".png",
-                EXCEL.parse(new InputStreamReader(TrainingSetLoader.class.getResourceAsStream("/trainLabels.csv")))
+                EXCEL.parse(new InputStreamReader(TrainingDataSetLoader.class.getResourceAsStream("/trainLabels.csv")))
         );
 
         trainingSetLoader.initialise();

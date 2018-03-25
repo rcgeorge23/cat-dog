@@ -10,8 +10,8 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.novinet.catdog.TrainingSetLoader.CAT;
-import static com.novinet.catdog.TrainingSetLoader.DOG;
+import static com.novinet.catdog.TrainingDataSetLoader.CAT;
+import static com.novinet.catdog.TrainingDataSetLoader.DOG;
 import static java.lang.Math.abs;
 import static java.lang.Math.round;
 
