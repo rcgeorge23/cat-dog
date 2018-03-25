@@ -4,10 +4,11 @@
    http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>uk.co..novinet</groupId>
+    <groupId>uk.co.novinet</groupId>
     <artifactId>catdog</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
+    <description>Classify cat and dog pictures (this picture is 60% dog, etc.)</description>
 
     <name>catdog</name>
 
