@@ -33,7 +33,7 @@ public class ClassificationService {
     public ClassificationResult classify(InputStream imageInputStream, InputStream networkStream) throws IOException {
         double classification = new NaiveNeuralNetwork(networkStream).classify(new FastRgbBufferedImageWrapper(resize(imageInputStream, 32, 32)));
         ClassificationLabel classificationLabel = CLASSIFICATIONS.get(round(classification));
-        return new ClassificationResult(abs(1 - classification), classificationLabel);
+        return new ClassificationResult(1 - (2 * abs(0.5 - classification)), classificationLabel);
     }
 
     private BufferedImage resize(InputStream imageInputStream, int width, int height) {

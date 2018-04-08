@@ -13,7 +13,7 @@ public class ClassificationServiceTest {
     public void classifyCanCorrectlyClassify32by32Image() throws IOException {
         this.classificationService = new ClassificationService();
         ClassificationResult classificationResult = classificationService.classify(this.getClass().getResourceAsStream("/test-cat.jpg"), this.getClass().getResourceAsStream("/naivenetwork_test.eg"));
-        assertEquals(0.6032417038996352d, classificationResult.getCertainty());
+        assertEquals(0.7935165922007298d, classificationResult.getCertainty());
         assertEquals("cat", classificationResult.getClassificationLabel().getLabel());
     }
 }
